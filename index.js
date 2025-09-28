@@ -45,6 +45,18 @@ app.get("/info", (request, response) => {
     <p>${fecha}</p>`)
 })
 
+// Ruta que devuelve los datos de una persona segun su id.
+app.get('/api/persons/:id', (request, response) => {
+  const id = Number(request.params.id) // "request.params.id" siempre llega como una cadena (string), por lo tanto, es necesario convertirlo a un número (number).
+  const persona = personas.find((persona) => persona.id === id)
+
+  if (persona) {
+    response.json(persona)
+  } else {
+    response.status(404).end()
+  }
+})
+
 const PUERTO = 3001;
 app.listen(PUERTO, () => {
   console.log(`Servidor escuchando en: http://localhost:${PUERTO}`);
