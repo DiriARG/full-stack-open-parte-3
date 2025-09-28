@@ -32,8 +32,17 @@ app.get("/", (request, response) =>{
 })
 
 // Ruta que devuelve los datos codificados en JSON.
-app.get('/api/persons', (request, response) => {
+app.get("/api/persons", (request, response) => {
   response.json(personas)
+})
+
+// Ruta que proporciona info. 
+app.get("/info", (request, response) => {
+  const total = personas.length;
+  // Fecha y hora actual.
+  const fecha = new Date();
+  response.send(`<p>La agenda telefónica tiene información de ${total} personas </p>
+    <p>${fecha}</p>`)
 })
 
 const PUERTO = 3001;
