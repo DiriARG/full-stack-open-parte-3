@@ -1,0 +1,28 @@
+{
+  "name": "full-stack-open-parte-3",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/DiriARG/full-stack-open-parte-3#readme",
+  "bugs": {
+    "url": "https://github.com/DiriARG/full-stack-open-parte-3/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DiriARG/full-stack-open-parte-3.git"
+  },
+  "license": "MIT ",
+  "author": "Matías Di Risio",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
