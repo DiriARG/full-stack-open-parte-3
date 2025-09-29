@@ -68,11 +68,19 @@ app.delete("/api/persons/:id", (request, response) => {
 // Ruta para agregar nuevas personas a la agenda telefónica.
 app.post("/api/persons", (request, response) => {
   const nuevaPersona = request.body;
-  if (!nuevaPersona.name) {
+  // Si falta el nombre o el número...
+  if (!nuevaPersona.name || !nuevaPersona.number) {
     return response.status(400).json({
-      error: "Falta contenido",
+      error: "Falta el nombre o el número",
     });
   }
+  // Si el nombre ya existe en la agenda...
+  if (personas.find((p) => p.name === nuevaPersona.name)) {
+    return response.status(409).json({
+      error: "El campo 'name' debe ser único",
+    });
+  }
+  
   const id = Math.floor(Math.random() * 1000000);
 
   const persona = {
