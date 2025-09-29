@@ -1,5 +1,7 @@
 const express = require("express");
 const app = express();
+//Importamos el módulo morgan para el registro de solicitudes HTTP.
+const morgan = require("morgan");
 
 let personas = [
   {
@@ -25,6 +27,8 @@ let personas = [
 ];
 
 app.use(express.json());
+// Formato "tiny" para la configuración.
+app.use(morgan('tiny'));
 
 // Ruta principal.
 app.get("/", (request, response) => {
