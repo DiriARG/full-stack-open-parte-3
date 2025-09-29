@@ -27,8 +27,27 @@ let personas = [
 ];
 
 app.use(express.json());
-// Formato "tiny" para la configuración.
-app.use(morgan('tiny'));
+
+// Se define un token personalizado para mostrar el body.
+morgan.token("body", (req) => JSON.stringify(req.body));
+
+// Formato tiny + mostrar body solo en caso de POST.
+app.use(
+  morgan((tokens, req, res) => {
+    const log = [
+      tokens.method(req, res),
+      tokens.url(req, res),
+      tokens.status(req, res),
+      tokens.res(req, res, "content-length"),
+      "-",
+      tokens["response-time"](req, res),
+      "ms",
+    ].join(" ");
+
+    // Si es un POST, agregamos el body.
+    return req.method === "POST" ? `${log} ${tokens.body(req, res)}` : log;
+  })
+);
 
 // Ruta principal.
 app.get("/", (request, response) => {
@@ -84,7 +103,7 @@ app.post("/api/persons", (request, response) => {
       error: "El campo 'name' debe ser único",
     });
   }
-  
+
   const id = Math.floor(Math.random() * 1000000);
 
   const persona = {
