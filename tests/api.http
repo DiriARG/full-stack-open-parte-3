@@ -12,3 +12,12 @@ GET http://localhost:3001/api/persons/1
 
 ### Ruta para eliminar una persona segun su id.
 DELETE http://localhost:3001/api/persons/1
+
+### Agregar nuevas personas a la agenda telefónica.
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+    "name": "Prueba",
+    "number": "123456"
+}

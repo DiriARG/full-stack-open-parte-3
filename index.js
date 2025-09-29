@@ -65,6 +65,29 @@ app.delete("/api/persons/:id", (request, response) => {
   response.status(204).end();
 });
 
+// Ruta para agregar nuevas personas a la agenda telefónica.
+app.post("/api/persons", (request, response) => {
+  const nuevaPersona = request.body;
+  if (!nuevaPersona.name) {
+    return response.status(400).json({
+      error: "Falta contenido",
+    });
+  }
+  const id = Math.floor(Math.random() * 1000000);
+
+  const persona = {
+    name: nuevaPersona.name,
+    number: nuevaPersona.number,
+    id: id,
+  };
+
+  // Luego de armar el objeto "persona" se lo concatena al array "personas".
+  personas = personas.concat(persona);
+
+  // Se devuelve la persona recién agregada.
+  response.json(persona);
+});
+
 const PUERTO = 3001;
 app.listen(PUERTO, () => {
   console.log(`Servidor escuchando en: http://localhost:${PUERTO}`);
