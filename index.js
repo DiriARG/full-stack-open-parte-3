@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 //Importamos el módulo morgan para el registro de solicitudes HTTP.
 const morgan = require("morgan");
+const cors = require("cors");
 
 let personas = [
   {
@@ -27,6 +28,8 @@ let personas = [
 ];
 
 app.use(express.json());
+// Se habilita CORS para todas las solicitudes.
+app.use(cors());
 
 // Se define un token personalizado para mostrar el body.
 morgan.token("body", (req) => JSON.stringify(req.body));
