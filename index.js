@@ -122,8 +122,8 @@ app.post("/api/persons", (request, response) => {
   response.json(persona);
 });
 
-// Render asigna el puerto a través de una variable de entorno, por lo tanto usará process.env.PUERTO.
-const PUERTO = process.env.PUERTO || 3001; 
-app.listen(PUERTO, () => {
-  console.log(`Servidor escuchando en: http://localhost:${PUERTO}`);
+// Render asigna el puerto a través de una variable de entorno, por lo tanto usará process.env.PORT.
+const PORT = process.env.PORT || 3001; 
+app.listen(PORT, () => {
+  console.log(`Servidor escuchando en: http://localhost:${PORT}`);
 });
