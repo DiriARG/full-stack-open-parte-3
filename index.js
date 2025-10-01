@@ -27,6 +27,9 @@ let personas = [
   },
 ];
 
+// Middleware para servir el frontend estático.
+app.use(express.static('dist'))
+
 app.use(express.json());
 // Se habilita CORS para todas las solicitudes.
 app.use(cors());
