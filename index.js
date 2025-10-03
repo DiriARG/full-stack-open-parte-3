@@ -1,4 +1,4 @@
-// Carga las variables del ".env" globalmente. Debe ir antes de cualquier importación que las use (ej: "./models/persona"). 
+// Carga las variables del ".env" globalmente. Debe ir antes de cualquier importación que las use (ej: "./models/persona").
 require("dotenv").config();
 const express = require("express");
 //Importamos el módulo morgan para el registro de solicitudes HTTP.
@@ -82,32 +82,24 @@ app.delete("/api/persons/:id", (request, response) => {
 // Ruta para agregar nuevas personas a la agenda telefónica.
 app.post("/api/persons", (request, response) => {
   const nuevaPersona = request.body;
+
   // Si falta el nombre o el número...
   if (!nuevaPersona.name || !nuevaPersona.number) {
     return response.status(400).json({
       error: "Falta el nombre o el número",
     });
   }
-  // Si el nombre ya existe en la agenda...
-  if (personas.find((p) => p.name === nuevaPersona.name)) {
-    return response.status(409).json({
-      error: "El campo 'name' debe ser único",
-    });
-  }
-
-  const id = Math.floor(Math.random() * 1000000);
-
-  const persona = {
+  
+  // Se crea la instancia de Mongoose (el ID se generará automáticamente).
+  const persona = new Persona({
     name: nuevaPersona.name,
     number: nuevaPersona.number,
-    id: id,
-  };
-
-  // Luego de armar el objeto "persona" se lo concatena al array "personas".
-  personas = personas.concat(persona);
-
-  // Se devuelve la persona recién agregada.
-  response.json(persona);
+  });
+  
+  // Se guarda en la bd.
+  persona.save().then((personaGuardada) => {
+    response.json(personaGuardada);
+  });
 });
 
 // Render asigna el puerto a través de una variable de entorno, por lo tanto usará process.env.PORT.
