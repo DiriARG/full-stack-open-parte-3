@@ -27,8 +27,8 @@ mongoose.connect(url);
 
 // Definición del esquema y el modelo.
 const personaSchema = new mongoose.Schema({
-  nombre: String,
-  numero: String,
+  name: String,
+  number: String,
 });
 
 const Persona = mongoose.model("Persona", personaSchema);
@@ -38,7 +38,7 @@ if (process.argv.length === 3) {
   Persona.find({}).then((personas) => {
     console.log("Agenda telefónica: ");
     personas.forEach((persona) => {
-      console.log(`${persona.nombre} ${persona.numero}`);
+      console.log(`${persona.name} ${persona.number}`);
     });
     mongoose.connection.close();
   });
@@ -46,8 +46,8 @@ if (process.argv.length === 3) {
   // Si se pasan 5 argumentos (node / mongo.js / contraseña / nombre / numero) → Se agrega una nueva persona.
 } else if (process.argv.length === 5) {
   const persona = new Persona({
-    nombre: nombre,
-    numero: numero,
+    name: nombre,
+    number: numero,
   });
 
   persona.save().then(() => {
