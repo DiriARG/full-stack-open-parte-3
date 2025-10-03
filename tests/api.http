@@ -1,7 +1,7 @@
 ### Ruta principal.
 GET https://agenda-telefonica-backend-9m37.onrender.com
 
-### Ruta que devuelve los datos codificados en JSON.
+### Ruta para obtener todos los contactos de la agenda telefónica.
 GET https://agenda-telefonica-backend-9m37.onrender.com/api/persons
 
 ### Ruta que proporciona info. 

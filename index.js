@@ -1,35 +1,18 @@
+// Carga las variables del ".env" globalmente. Debe ir antes de cualquier importación que las use (ej: "./models/persona"). 
+require("dotenv").config();
 const express = require("express");
-const app = express();
 //Importamos el módulo morgan para el registro de solicitudes HTTP.
 const morgan = require("morgan");
 const cors = require("cors");
 
-let personas = [
-  {
-    id: 1,
-    name: "Arto Hellas",
-    number: "040-123456",
-  },
-  {
-    id: 2,
-    name: "Ada Lovelace",
-    number: "39-44-5323523",
-  },
-  {
-    id: 3,
-    name: "Dan Abramov",
-    number: "12-43-234345",
-  },
-  {
-    id: 4,
-    name: "Mary Poppendieck",
-    number: "39-23-6423122",
-  },
-];
+const Persona = require("./models/persona");
+
+const app = express();
+
+let personas = [];
 
 // Middleware para servir el frontend estático.
-app.use(express.static('dist'))
-
+app.use(express.static("dist"));
 app.use(express.json());
 // Se habilita CORS para todas las solicitudes.
 app.use(cors());
@@ -60,9 +43,11 @@ app.get("/", (request, response) => {
   response.send("<h1>Backend de la Agenda Telefónica!</h1>");
 });
 
-// Ruta que devuelve los datos codificados en JSON.
+// Ruta para obtener todos los contactos de la agenda telefónica.
 app.get("/api/persons", (request, response) => {
-  response.json(personas);
+  Persona.find({}).then((personas) => {
+    response.json(personas);
+  });
 });
 
 // Ruta que proporciona info.
@@ -126,7 +111,7 @@ app.post("/api/persons", (request, response) => {
 });
 
 // Render asigna el puerto a través de una variable de entorno, por lo tanto usará process.env.PORT.
-const PORT = process.env.PORT || 3001; 
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Servidor escuchando en: http://localhost:${PORT}`);
 });
