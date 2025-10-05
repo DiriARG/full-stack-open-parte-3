@@ -19,7 +19,7 @@ const controladorDeErrores = (error, request, response, next) => {
   if (error.name === "CastError") {
     return response.status(400).send({ error: "ID con formato incorrecto" });
   }
-  
+
   next(error);
 };
 
@@ -114,6 +114,29 @@ app.post("/api/persons", (request, response, next) => {
     .save()
     .then((personaGuardada) => {
       response.status(201).json(personaGuardada);
+    })
+    .catch((error) => next(error));
+});
+
+// Ruta para actualizar una persona existente mediante su id.
+app.put("/api/persons/:id", (request, response, next) => {
+  const { name, number } = request.body;
+
+  // Se busca el ID en la bd.
+  Persona.findById(request.params.id)
+    .then((persona) => {
+      if (!persona) {
+        return response.status(404).end();
+      }
+
+      // Se editan los campos del documento Mongoose.
+      persona.name = name;
+      persona.number = number;
+
+      // Por ultimo, se guarda el documento actualizado.
+      return persona.save().then((personaActualizada) => {
+        response.json(personaActualizada);
+      });
     })
     .catch((error) => next(error));
 });

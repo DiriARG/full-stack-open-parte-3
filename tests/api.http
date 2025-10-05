@@ -12,17 +12,6 @@ GET https://agenda-telefonica-backend-9m37.onrender.com/info
 ### Ruta que devuelve los datos de una persona segun su id.
 GET https://agenda-telefonica-backend-9m37.onrender.com/api/persons/1
 
-### Ruta para eliminar una persona segun su id.
-DELETE https://agenda-telefonica-backend-9m37.onrender.com/api/persons/1
-
-### Agregar nuevas personas a la agenda telefónica.
-POST https://agenda-telefonica-backend-9m37.onrender.com/api/persons
-Content-Type: application/json
-
-{
-    "name": "Prueba",
-    "number": "123456"
-}
 
 ### Desarrollo:
 
@@ -48,5 +37,14 @@ Content-Type: application/json
 {
     "name": "Prueba2",
     "number": "123"
+}
+
+### Ruta para actualizar una persona existente mediante su id.
+PUT http://localhost:10000/api/persons/68dfd3b77413671e8241162c
+Content-Type: application/json
+
+{
+    "name": "Verónica",
+    "number": 4
 }
 
