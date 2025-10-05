@@ -9,8 +9,6 @@ const Persona = require("./models/persona");
 
 const app = express();
 
-let personas = [];
-
 // Función centralizada para manejar errores de Express.
 const controladorDeErrores = (error, request, response, next) => {
   console.error(error.message);
@@ -63,24 +61,31 @@ app.get("/api/persons", (request, response) => {
 });
 
 // Ruta que proporciona info.
-app.get("/info", (request, response) => {
-  const total = personas.length;
-  // Fecha y hora actual.
-  const fecha = new Date();
-  response.send(`<p>La agenda telefónica tiene información de ${total} personas </p>
-    <p>${fecha}</p>`);
+app.get("/info", (request, response, next) => {
+  // Se cuenta todos los registros de la colección.
+  Persona.countDocuments({})
+    .then((cantidad) => {
+      // Fecha y hora actual.
+      const fecha = new Date();
+      response.send(`
+        <p>La agenda telefónica tiene información de ${cantidad} personas</p>
+        <p>${fecha}</p>
+      `);
+    })
+    .catch((error) => next(error));
 });
 
 // Ruta que devuelve los datos de una persona segun su id.
-app.get("/api/persons/:id", (request, response) => {
-  const id = Number(request.params.id); // "request.params.id" siempre llega como una cadena (string), por lo tanto, es necesario convertirlo a un número (number).
-  const persona = personas.find((persona) => persona.id === id);
-
-  if (persona) {
-    response.json(persona);
-  } else {
-    response.status(404).end();
-  }
+app.get("/api/persons/:id", (request, response, next) => {
+  Persona.findById(request.params.id)
+    .then((persona) => {
+      if (persona) {
+        response.json(persona);
+      } else {
+        response.status(404).end();
+      }
+    })
+    .catch(error => next(error)); 
 });
 
 // Ruta para eliminar una persona segun su id.
