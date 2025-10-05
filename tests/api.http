@@ -39,7 +39,7 @@ GET http://localhost:10000/info
 GET http://localhost:10000/api/persons/68dfcd4aadb03af6c9dbbe4c
 
 ### Ruta para eliminar una persona segun su id.
-DELETE http://localhost:10000/api/persons/68dfcd4aadb03af6c9dbbe4c
+DELETE http://localhost:10000/api/persons/68dffd438d777fa6dec4bd2d
 
 ### Agregar nuevas personas a la agenda telefónica.
 POST http://localhost:10000/api/persons

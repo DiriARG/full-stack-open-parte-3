@@ -73,10 +73,16 @@ app.get("/api/persons/:id", (request, response) => {
 
 // Ruta para eliminar una persona segun su id.
 app.delete("/api/persons/:id", (request, response) => {
-  const id = Number(request.params.id);
-  personas = personas.filter((persona) => persona.id !== id);
-
-  response.status(204).end();
+  Persona.findByIdAndDelete(request.params.id)
+    .then((resultado) => {
+      response.status(204).end();
+    })
+    .catch((error) => {
+      console.error("Error al eliminar una persona: ", error); 
+      response
+        .status(400)
+        .send({ error: "ID inválido o error de base de datos" });
+    });
 });
 
 // Ruta para agregar nuevas personas a la agenda telefónica.
@@ -89,13 +95,13 @@ app.post("/api/persons", (request, response) => {
       error: "Falta el nombre o el número",
     });
   }
-  
+
   // Se crea la instancia de Mongoose (el ID se generará automáticamente).
   const persona = new Persona({
     name: nuevaPersona.name,
     number: nuevaPersona.number,
   });
-  
+
   // Se guarda en la bd.
   persona.save().then((personaGuardada) => {
     response.json(personaGuardada);
