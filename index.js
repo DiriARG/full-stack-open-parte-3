@@ -11,6 +11,18 @@ const app = express();
 
 let personas = [];
 
+// Función centralizada para manejar errores de Express.
+const controladorDeErrores = (error, request, response, next) => {
+  console.error(error.message);
+
+  // "CastError" ocurre cuando el ID proporcionado tiene un formato incorrecto para MongoDB.
+  if (error.name === "CastError") {
+    return response.status(400).send({ error: "ID con formato incorrecto" });
+  }
+  
+  next(error);
+};
+
 // Middleware para servir el frontend estático.
 app.use(express.static("dist"));
 app.use(express.json());
@@ -72,21 +84,16 @@ app.get("/api/persons/:id", (request, response) => {
 });
 
 // Ruta para eliminar una persona segun su id.
-app.delete("/api/persons/:id", (request, response) => {
+app.delete("/api/persons/:id", (request, response, next) => {
   Persona.findByIdAndDelete(request.params.id)
     .then((resultado) => {
       response.status(204).end();
     })
-    .catch((error) => {
-      console.error("Error al eliminar una persona: ", error); 
-      response
-        .status(400)
-        .send({ error: "ID inválido o error de base de datos" });
-    });
+    .catch((error) => next(error));
 });
 
 // Ruta para agregar nuevas personas a la agenda telefónica.
-app.post("/api/persons", (request, response) => {
+app.post("/api/persons", (request, response, next) => {
   const nuevaPersona = request.body;
 
   // Si falta el nombre o el número...
@@ -103,10 +110,16 @@ app.post("/api/persons", (request, response) => {
   });
 
   // Se guarda en la bd.
-  persona.save().then((personaGuardada) => {
-    response.json(personaGuardada);
-  });
+  persona
+    .save()
+    .then((personaGuardada) => {
+      response.status(201).json(personaGuardada);
+    })
+    .catch((error) => next(error));
 });
+
+// Uso del middleware de manejo de errores, siempre debe estar al final.
+app.use(controladorDeErrores);
 
 // Render asigna el puerto a través de una variable de entorno, por lo tanto usará process.env.PORT.
 const PORT = process.env.PORT || 3001;
