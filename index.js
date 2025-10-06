@@ -50,11 +50,6 @@ app.use(
   })
 );
 
-// Ruta principal.
-app.get("/", (request, response) => {
-  response.send("<h1>Backend de la Agenda Telefónica!</h1>");
-});
-
 // Ruta para obtener todos los contactos de la agenda telefónica.
 app.get("/api/persons", (request, response) => {
   Persona.find({}).then((personas) => {
@@ -158,7 +153,7 @@ app.use(rutaDesconocida);
 app.use(controladorDeErrores);
 
 // Render asigna el puerto a través de una variable de entorno, por lo tanto usará process.env.PORT.
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
   console.log(`Servidor escuchando en: http://localhost:${PORT}`);
 });

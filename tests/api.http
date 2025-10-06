@@ -15,36 +15,33 @@ GET https://agenda-telefonica-backend-9m37.onrender.com/api/persons/1
 
 ### Desarrollo:
 
-### Ruta principal.
-GET http://localhost:10000
-
 ### Ruta para obtener todos los contactos de la agenda telefónica.
-GET http://localhost:10000/api/persons
+GET http://localhost:3001/api/persons
 
 ### Ruta que proporciona info. 
-GET http://localhost:10000/info
+GET http://localhost:3001/info
 
 ### Ruta que devuelve los datos de una persona segun su id.
-GET http://localhost:10000/api/persons/68dfcd4aadb03af6c9dbbe4c
+GET http://localhost:3001/api/persons/68e44b2ecc0c0a879b42d9dd
 
 ### Ruta para eliminar una persona segun su id.
-DELETE http://localhost:10000/api/persons/68dffd438d777fa6dec4bd2d
+DELETE http://localhost:3001/api/persons/68e44b2ecc0c0a879b42d9dd
 
 ### Agregar nuevas personas a la agenda telefónica.
-POST http://localhost:10000/api/persons
+POST http://localhost:3001/api/persons
 Content-Type: application/json
 
 {
     "name": "Prueba2",
-    "number": "123"
+    "number": "02-12345678"
 }
 
 ### Ruta para actualizar una persona existente mediante su id.
-PUT http://localhost:10000/api/persons/68dfd3b77413671e8241162c
+PUT http://localhost:3001/api/persons/68e44c31cc0c0a879b42d9f0
 Content-Type: application/json
 
 {
-    "name": "Verónica",
-    "number": 4
+    "name": "Prueba2",
+    "number": "01-12345671"
 }
 
