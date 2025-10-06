@@ -16,7 +16,11 @@ mongoose
   });
 
 const personaSchema = new mongoose.Schema({
-  name: String,
+  name: {
+    type: String,
+    // Se agrega una restricción mínima de tres caracteres de longitud para el nombre.
+    minlength: 3,
+  },
   number: String,
 });
 

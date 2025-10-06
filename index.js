@@ -16,6 +16,8 @@ const controladorDeErrores = (error, request, response, next) => {
   // "CastError" ocurre cuando el ID proporcionado tiene un formato incorrecto para MongoDB.
   if (error.name === "CastError") {
     return response.status(400).send({ error: "ID con formato incorrecto" });
+  } else if (error.name === "ValidationError") {
+    return response.status(400).json({ error: error.message });
   }
 
   next(error);
@@ -85,7 +87,7 @@ app.get("/api/persons/:id", (request, response, next) => {
         response.status(404).end();
       }
     })
-    .catch(error => next(error)); 
+    .catch((error) => next(error));
 });
 
 // Ruta para eliminar una persona segun su id.
@@ -146,6 +148,12 @@ app.put("/api/persons/:id", (request, response, next) => {
     .catch((error) => next(error));
 });
 
+// Middleware para manejar rutas no encontradas.
+const rutaDesconocida = (request, response) => {
+  response.status(404).send({ error: "Ruta no encontrada" });
+};
+
+app.use(rutaDesconocida);
 // Uso del middleware de manejo de errores, siempre debe estar al final.
 app.use(controladorDeErrores);
 
