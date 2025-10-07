@@ -10,7 +10,7 @@ GET https://agenda-telefonica-backend-9m37.onrender.com/api/persons
 GET https://agenda-telefonica-backend-9m37.onrender.com/info
 
 ### Ruta que devuelve los datos de una persona segun su id.
-GET https://agenda-telefonica-backend-9m37.onrender.com/api/persons/1
+GET https://agenda-telefonica-backend-9m37.onrender.com/api/persons/68e5262acd52a179c14f0002
 
 
 ### Desarrollo:
